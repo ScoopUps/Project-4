@@ -2,10 +2,13 @@ library(shiny)
 library(ggplot2)
 library(dplyr)
 library(plotly)
+library(shinythemes)
 
-sal <- read.csv("salaries.csv")
+sal <- read.csv("Salaries.csv")
+master <- read.csv("Master.csv")
 
 ui <- fluidPage(
+  theme = shinytheme("superhero"),
   sidebarPanel(
     sliderInput(inputId = "year",
                 label = "Year Range",
@@ -26,8 +29,13 @@ server <- function(input, output) {
              Year <= input$year[2],
              Team == input$teamInput
       )
-    ggplot(filtered, aes(Year, Salary)) +
-      geom_point()
+    gg <- ggplotly(
+      ggplot(filtered, aes(Year, Salary, text=paste(Name))) +
+        geom_point() + 
+        theme(axis.text.x = element_text(size = 10, angle=45)) +
+        theme(axis.line = element_line(color = "forestgreen", 
+                                       size = 2, linetype = "solid"))
+    )
     })
 }
 
