@@ -39,7 +39,9 @@ server <- function(input, output) {
     gg <- ggplotly(
       ggplot(filtered, aes(Year, Salary, text=paste(Name), color=Team)) +
         geom_point() + 
-        theme(axis.text.x = element_text(size = 10, angle=45)) +
+        scale_y_continuous(labels = scales::dollar) +
+        labs(y = "Salary <br> (in K)") +
+        theme(axis.text.x = element_text(size = 9, angle=45)) +
         theme(axis.line = element_line(color = "forestgreen", 
                                        size = 2, linetype = "solid"))
     )
